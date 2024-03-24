@@ -12,15 +12,33 @@ public class MovementScript : MonoBehaviour
     [SerializeField] private float movementSpeed; 
     [SerializeField] private float rotationSpeed; 
     [SerializeField] private float sprintSpeed; 
-    [SerializeField] private float walkSpeed; 
+    [SerializeField] private float walkSpeed;
+
+    [SerializeField] private Transform enemy; 
+
+    public bool lockedEnemy = false; 
 
     
     // Update is called once per frame
     void Update()
     {
         GatherInput();
-        Look(); 
         Sprint(); 
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            lockedEnemy =! lockedEnemy; 
+        }
+
+        if (lockedEnemy == false)
+        {
+            Look(); 
+        }
+        else
+        {
+            EnemyLock();
+        }
+
     }
 
     private void FixedUpdate()
@@ -37,15 +55,17 @@ public class MovementScript : MonoBehaviour
         if (input == Vector3.zero) 
             return; 
 
-
-
-        var rotation = Quaternion.LookRotation(input.ToIso(), Vector3.up); 
+        var rotation = Quaternion.LookRotation(input, Vector3.up); 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime); 
         
     }
     void Move()
     {
-        rb.MovePosition(transform.position + transform.forward * input.normalized.magnitude * movementSpeed * Time.deltaTime); 
+
+        Vector3 movementDirection = new Vector3(input.x, 0, input.z); 
+        movementDirection.Normalize();
+        rb.MovePosition(transform.position + movementDirection * movementSpeed * Time.deltaTime); 
+ 
     }
 
     void Sprint()
@@ -58,5 +78,14 @@ public class MovementScript : MonoBehaviour
         {
             movementSpeed = walkSpeed; 
         }
+    }
+
+    void EnemyLock()
+    {
+        Vector3 lookToEnemy = enemy.position - transform.position; 
+        Vector3 unitLookToEnemy = lookToEnemy.normalized;
+
+        var rotation = Quaternion.LookRotation(unitLookToEnemy, Vector3.up);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime); 
     }
 }
