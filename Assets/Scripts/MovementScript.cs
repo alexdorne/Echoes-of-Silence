@@ -15,6 +15,7 @@ public class MovementScript : MonoBehaviour
     [SerializeField] private float sprintSpeed; 
     [SerializeField] private float walkSpeed;
 
+    
 
     [SerializeField] private TMP_Text lockText;
 
@@ -22,6 +23,7 @@ public class MovementScript : MonoBehaviour
     [SerializeField] private float smoothCamRotate; 
 
     public Transform enemy; 
+    public GameObject fireball; 
 
     public bool lockedEnemy = false; 
 
