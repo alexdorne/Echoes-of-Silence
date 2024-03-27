@@ -24,6 +24,7 @@ public class MovementScript : MonoBehaviour
 
     public Transform enemy; 
     public GameObject fireball; 
+    public GameObject castPoint; 
 
     public bool lockedEnemy = false; 
 
@@ -31,12 +32,24 @@ public class MovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        // Gathers Player Input
         GatherInput();
+
+        // Sprinting Function
         Sprint(); 
+
+        // Pressing Space locks onto enemy
 
         if (Input.GetKeyDown(KeyCode.Space) && enemy != null)
         {
             lockedEnemy =! lockedEnemy; 
+        }
+
+        if (lockedEnemy == true && enemy == null)
+        {
+            lockedEnemy = false;
+            lockText.gameObject.SetActive(false); 
         }
 
         if (lockedEnemy == false)
@@ -68,6 +81,8 @@ public class MovementScript : MonoBehaviour
 
     void Look()
     {
+        // Default Player Rotation 
+
         if (input == Vector3.zero) 
             return; 
 
@@ -77,6 +92,7 @@ public class MovementScript : MonoBehaviour
     }
     void Move()
     {
+        // Default Player Movement
 
         Vector3 movementDirection = new Vector3(input.x, 0, input.z); 
         movementDirection.Normalize();
@@ -86,6 +102,8 @@ public class MovementScript : MonoBehaviour
 
     void Sprint()
     {
+        // Sprinting Mechanic 
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             movementSpeed = sprintSpeed;
@@ -98,6 +116,9 @@ public class MovementScript : MonoBehaviour
 
     void EnemyLock()
     {
+        // Enemy Lock changes the player rotation to point at an enemy that is in range
+
+
         Vector3 lookToEnemy = enemy.position - transform.position; 
         Vector3 unitLookToEnemy = lookToEnemy.normalized;
 

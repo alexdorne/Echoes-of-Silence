@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: New Fire Ball
   m_EditorClassIdentifier: 
   name: FireBall
-  cooldownTime: 5
-  activeTime: 5
+  cooldownTime: 1
+  activeTime: 1

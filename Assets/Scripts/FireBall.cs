@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,13 +12,10 @@ public class FireBall : Spells
         Transform playerPosition = parent.GetComponent<Transform>();
         MovementScript movementScript = parent.GetComponent<MovementScript>();
         Transform enemy = movementScript.enemy; 
-
-        Instantiate(movementScript.fireball, playerPosition); 
         
-    }
+        
 
-    public override void BeginCooldown(GameObject parent)
-    {
+        Instantiate(movementScript.fireball, movementScript.castPoint.transform.position, movementScript.castPoint.transform.rotation); 
         
     }
 }

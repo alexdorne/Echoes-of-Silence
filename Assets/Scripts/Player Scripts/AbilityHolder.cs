@@ -39,7 +39,6 @@ public class AbilityHolder : MonoBehaviour
                 }
                 else
                 {
-                    spell.BeginCooldown(gameObject); 
                     state = SpellState.cooldown;  
                     cooldownTime = spell.cooldownTime; 
                 }

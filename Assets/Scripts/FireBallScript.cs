@@ -6,20 +6,72 @@ using UnityEngine.UIElements;
 public class FireBallScript : MonoBehaviour
 {
 
-    MovementScript movementScript; 
+    public MovementScript movementScript; 
     Transform target;
+    private bool lockedTarget = false; 
+    private bool targetFound = false; 
+    public Transform enemy; 
+    EnemyScript enemyScript;
+
+    [SerializeField] private int fireballDamage; 
 
     [SerializeField] private float fireBallSpeed = 5f; 
-    // Start is called before the first frame update
+
     void Start()
     {
-        movementScript = GetComponentInParent<MovementScript>();
+        movementScript = FindAnyObjectByType<MovementScript>();
         target = movementScript.enemy; 
+
+        if (target != null && movementScript.lockedEnemy == true)
+        {
+            lockedTarget = true;
+        }
+        else
+        {
+            lockedTarget = false; 
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target.position, fireBallSpeed * Time.deltaTime);
+        if (lockedTarget == true)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target.position, fireBallSpeed * Time.deltaTime);
+        }
+        
+        else if(lockedTarget == false && targetFound == false)
+        {
+            transform.position += transform.forward * fireBallSpeed * Time.deltaTime; 
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, enemy.position, fireBallSpeed * Time.deltaTime);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PullZone"))
+        {
+            targetFound = true; 
+            enemy = other.GetComponentInParent<Transform>(); 
+        }
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            enemyScript = collision.gameObject.GetComponent<EnemyScript>();
+
+            if (enemyScript != null)
+            {
+                enemyScript.health -= fireballDamage; 
+            }
+
+            Destroy(gameObject);
+        }
     }
 }
