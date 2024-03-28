@@ -13,7 +13,7 @@ public class FireBallScript : MonoBehaviour
     public Transform enemy; 
     EnemyScript enemyScript;
 
-    [SerializeField] private int fireballDamage; 
+    public int fireballDamage; 
 
     [SerializeField] private float fireBallSpeed = 5f; 
 

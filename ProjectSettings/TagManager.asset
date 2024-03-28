@@ -8,6 +8,10 @@ TagManager:
   - LockZone
   - FireBall
   - PullZone
+  - NoteBlock
+  - SkillBar
+  - PlayableNote
+  - End
   layers:
   - Default
   - TransparentFX

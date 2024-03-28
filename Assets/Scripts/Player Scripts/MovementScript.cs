@@ -20,7 +20,12 @@ public class MovementScript : MonoBehaviour
     [SerializeField] private TMP_Text lockText;
 
     [SerializeField] private GameObject cameraPivot;
-    [SerializeField] private float smoothCamRotate; 
+    [SerializeField] private float smoothCamRotate;
+    
+    public GameObject skillCheck; 
+    public GameObject noteBlock; 
+    public GameObject noteSpawner; 
+
 
     public Transform enemy; 
     public GameObject fireball; 
@@ -41,7 +46,7 @@ public class MovementScript : MonoBehaviour
 
         // Pressing Space locks onto enemy
 
-        if (Input.GetKeyDown(KeyCode.Space) && enemy != null)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && enemy != null)
         {
             lockedEnemy =! lockedEnemy; 
         }
